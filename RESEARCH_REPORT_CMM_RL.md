@@ -256,43 +256,43 @@ To assess the performance of the trained MaskablePPO agent, we benchmarked it ag
 ### 4.2 Publication-Ready Experimental Figures
 
 #### Figure 1: Training Progression & Metrology Convergence
-![Figure 1: Training Progression & Metrology Convergence](/home/raghav/.gemini/antigravity-cli/brain/0a64a024-7d05-434c-9a98-9b2b861c6f74/figures/fig1_learning_curves.png)
+![Figure 1: Training Progression & Metrology Convergence](figures/fig1_learning_curves.png)
 > **Figure 1 Analysis:** The policy completes $40,960$ steps ($2048$ episodes) in $59.88$ seconds. **(A)** Episodic return converges rapidly from $114$ to $122.5$ within the first $15,000$ steps. **(B)** Due to the action-masking budget feasibility constraint, the metrology success rate is sustained at $100\%$ throughout training. **(C)** Final remaining surface uncertainty drops from the prior of $68.6\%$ to $26.04\%$, demonstrating robust surface reconstruction. **(D)** CMM travel time stabilizes at $27.69$ seconds.
 
 ---
 
 #### Figure 2: Actor-Critic Neural Optimization Diagnostics
-![Figure 2: PPO Neural Optimization Diagnostics](/home/raghav/.gemini/antigravity-cli/brain/0a64a024-7d05-434c-9a98-9b2b861c6f74/figures/fig2_ppo_optimization_diagnostics.png)
+![Figure 2: PPO Neural Optimization Diagnostics](figures/fig2_ppo_optimization_diagnostics.png)
 > **Figure 2 Analysis:** **(A)** The clipped policy loss $L^{\text{CLIP}}$ remains bounded near zero ($-0.03$), demonstrating smooth policy updates without destructive divergence. **(B)** Critic MSE loss $L^V$ experiences exponential reduction from $699.0$ down to $0.90$ ($99.87\%$ reduction). **(C)** Policy action entropy smoothly contracts from $-4.33$ to $-3.57$, evidencing healthy transition from uniform exploration to confident touchpoint targeting. **(D)** Explained variance $\mathcal{R}^2$ of the value function reaches $0.998$, indicating near-perfect credit assignment.
 
 ---
 
 #### Figure 3: Comparative Benchmarking across Metrology Baselines
-![Figure 3: Metrology Performance Benchmark](/home/raghav/.gemini/antigravity-cli/brain/0a64a024-7d05-434c-9a98-9b2b861c6f74/figures/fig3_baseline_comparison.png)
+![Figure 3: Metrology Performance Benchmark](figures/fig3_baseline_comparison.png)
 > **Figure 3 Analysis:** **(A)** MaskablePPO achieves near-optimal reward returns ($122.55$) with minimal variance across stochastic seeds. **(B)** Greedy Uncertainty achieves a marginally higher uncertainty reduction ($45.0\%$ vs $42.5\%$), but **(C)** incurs a severe travel-time penalty ($29.58$s vs $27.69$s) due to erratic inter-face traverses. **(D)** Nearest Neighbor has high raw efficiency ($2.01\%/\text{s}$) due to tiny travel times ($14.54$s), but suffers from terrible final uncertainty ($39.45\%$), leaving large surface areas unmeasured.
 
 ---
 
 #### Figure 4: Workpiece Face Coverage & Constraint Adherence
-![Figure 4: Workpiece Face Coverage](/home/raghav/.gemini/antigravity-cli/brain/0a64a024-7d05-434c-9a98-9b2b861c6f74/figures/fig4_face_coverage_distribution.png)
+![Figure 4: Workpiece Face Coverage](figures/fig4_face_coverage_distribution.png)
 > **Figure 4 Analysis:** All 5 methods successfully allocate exactly $4$ touches to each of the 5 workpiece faces (Top, North, South, East, West), strictly meeting the GD&T least-squares plane-fitting minimum threshold (indicated by the red dashed line). MaskablePPO balances touches evenly ($4.0$ touches/face) without ever starving any surface.
 
 ---
 
 #### Figure 5: Step-by-Step Inspection Dynamics & Face Transitions
-![Figure 5: Step-by-Step Inspection Dynamics](/home/raghav/.gemini/antigravity-cli/brain/0a64a024-7d05-434c-9a98-9b2b861c6f74/figures/fig5_stepwise_inspection_dynamics.png)
+![Figure 5: Step-by-Step Inspection Dynamics](figures/fig5_stepwise_inspection_dynamics.png)
 > **Figure 5 Analysis:** **(A)** Step rewards reflect positive primitive bonuses ($+3.0$) and high initial uncertainty reductions, capped by the $+20.0$ terminal metrological bonus at step 20. **(B)** Surface uncertainty exhibits consistent concave decay, with the steepest drops during touches $1$ to $8$. **(C)** Face transition sequence shows intelligent grouping: the agent probes Top (+Z), transitions smoothly into East (+Y) and North (+X), and systematically traverses contiguous faces rather than randomly leaping across opposing ends.
 
 ---
 
 #### Figure 6: Critic Value Function & Policy Entropy Evolution
-![Figure 6: Value Function & Entropy Evolution](/home/raghav/.gemini/antigravity-cli/brain/0a64a024-7d05-434c-9a98-9b2b861c6f74/figures/fig6_value_entropy_progression.png)
+![Figure 6: Value Function & Entropy Evolution](figures/fig6_value_entropy_progression.png)
 > **Figure 6 Analysis:** **(A)** The critic's value prediction $V_\phi(\mathbf{s}_t)$ tracks remaining undiscounted return, smoothly decreasing as the inspection budget is expended, before terminating. **(B)** Policy action entropy $H[\pi_\theta]$ decreases monotonically from $4.3$ nats down to $0.8$ nats at step 20 as invalid action masking progressively eliminates candidate choices and forces convergence to metrologically required faces.
 
 ---
 
 #### Figure 7: 3D Spatial Touchpoint Distribution on Workpiece CAD
-![Figure 7: 3D Spatial Touchpoint Distribution](/home/raghav/.gemini/antigravity-cli/brain/0a64a024-7d05-434c-9a98-9b2b861c6f74/figures/fig7_spatial_touch_distribution.png)
+![Figure 7: 3D Spatial Touchpoint Distribution](figures/fig7_spatial_touch_distribution.png)
 > **Figure 7 Analysis:** 3D scatter plot of the $20$ planned touchpoints (colored by sequence step $1 \dots 20$) overlaid on the $K=256$ candidate point cloud. The planned points avoid edge proximity (protecting the stylus ruby sphere from slipping off chamfers) while maximizing intra-face spatial dispersion across the Top, North, South, East, and West faces.
 
 ---
