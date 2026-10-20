@@ -1,0 +1,148 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <model name="measured_box">
+    <static>true</static>
+    <link name="box_link">
+      <inertial>
+        <pose>0 0 0.05 0 0 0</pose>
+        <mass>0.2</mass>
+        <inertia>
+          <ixx>0.00033333</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.00033333</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.00033333</izz>
+        </inertia>
+      </inertial>
+
+      <!-- Main physical collision shape: 10cm x 10cm x 10cm -->
+      <collision name="box_collision">
+        <pose>0 0 0.05 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.10 0.10 0.10</size>
+          </box>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.8</mu>
+              <mu2>0.8</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>100000.0</kp>
+              <kd>10.0</kd>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+
+      <!-- Core body visual -->
+      <visual name="box_core_visual">
+        <pose>0 0 0.05 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.098 0.098 0.098</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.2 1.0</ambient>
+          <diffuse>0.2 0.2 0.2 1.0</diffuse>
+        </material>
+      </visual>
+
+      <!-- Face 1: Front (+X) - Red -->
+      <visual name="face_front_posX">
+        <pose>0.05 0 0.05 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.10 0.10</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1.0 0.0 0.0 1.0</ambient>
+          <diffuse>1.0 0.0 0.0 1.0</diffuse>
+          <specular>0.4 0.4 0.4 1.0</specular>
+        </material>
+      </visual>
+
+      <!-- Face 2: Back (-X) - Green -->
+      <visual name="face_back_negX">
+        <pose>-0.05 0 0.05 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.10 0.10</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 1.0 0.0 1.0</ambient>
+          <diffuse>0.0 1.0 0.0 1.0</diffuse>
+          <specular>0.4 0.4 0.4 1.0</specular>
+        </material>
+      </visual>
+
+      <!-- Face 3: Right (+Y) - Blue -->
+      <visual name="face_right_posY">
+        <pose>0 0.05 0.05 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.10 0.001 0.10</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 1.0 1.0</ambient>
+          <diffuse>0.0 0.0 1.0 1.0</diffuse>
+          <specular>0.4 0.4 0.4 1.0</specular>
+        </material>
+      </visual>
+
+      <!-- Face 4: Left (-Y) - Yellow -->
+      <visual name="face_left_negY">
+        <pose>0 -0.05 0.05 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.10 0.001 0.10</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1.0 1.0 0.0 1.0</ambient>
+          <diffuse>1.0 1.0 0.0 1.0</diffuse>
+          <specular>0.4 0.4 0.4 1.0</specular>
+        </material>
+      </visual>
+
+      <!-- Face 5: Top (+Z) - Cyan -->
+      <visual name="face_top_posZ">
+        <pose>0 0 0.10 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.10 0.10 0.001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 1.0 1.0 1.0</ambient>
+          <diffuse>0.0 1.0 1.0 1.0</diffuse>
+          <specular>0.4 0.4 0.4 1.0</specular>
+        </material>
+      </visual>
+
+      <!-- Face 6: Bottom (-Z) - Magenta -->
+      <visual name="face_bottom_negZ">
+        <pose>0 0 0.0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.10 0.10 0.001</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1.0 0.0 1.0 1.0</ambient>
+          <diffuse>1.0 0.0 1.0 1.0</diffuse>
+          <specular>0.4 0.4 0.4 1.0</specular>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

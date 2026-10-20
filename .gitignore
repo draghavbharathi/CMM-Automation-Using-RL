@@ -1,0 +1,30 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# ROS 2 build artifacts
+build/
+install/
+log/
+COLCON_IGNORE
+
+# Testing & logs
+.pytest_cache/
+test_log/
+*.log
+
+# Editor & OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Temporary models / archives
+*.tmp

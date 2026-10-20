@@ -1,0 +1,11 @@
+{
+    "total_timesteps": 40960,
+    "total_episodes": 2048,
+    "training_duration_seconds": 59.87724447250366,
+    "throughput_steps_per_sec": 684.0662151513889,
+    "final_10_ep_reward_mean": 120.8248146,
+    "final_10_ep_reward_std": 1.132260284480491,
+    "final_success_rate": 1.0,
+    "final_travel_time_mean": 27.045195346740847,
+    "final_remaining_unc_mean": 0.2845848649740219
+}

@@ -1,0 +1,203 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="cmm_world">
+
+    <!-- Physics settings: 1ms step size, 1.0 real-time factor -->
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <!-- Physics system (using bullet featherstone engine built for Jetty) -->
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics">
+      <engine>
+        <filename>gz-physics-bullet-featherstone-plugin</filename>
+      </engine>
+    </plugin>
+
+    <!-- UserCommands system: enables dynamic entity creation/spawning via /world/cmm_world/create -->
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands">
+    </plugin>
+
+    <!-- SceneBroadcaster system: broadcasts scene and entity states -->
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <!-- Sensors system: handles rendering for RGB-D camera and point cloud generation -->
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <!-- Scene visual configuration -->
+    <scene>
+      <ambient>0.4 0.4 0.4 1.0</ambient>
+      <background>0.8 0.85 0.9 1.0</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <!-- Primary directional light (Sun) -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.85 0.85 0.85 1.0</diffuse>
+      <specular>0.3 0.3 0.3 1.0</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.4 0.2 -0.9</direction>
+    </light>
+
+    <!-- Secondary fill light: ensures all colored sides of measured objects are clearly illuminated -->
+    <light type="directional" name="fill_light">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 5 0 0 0</pose>
+      <diffuse>0.3 0.3 0.3 1.0</diffuse>
+      <specular>0.1 0.1 0.1 1.0</specular>
+      <direction>0.4 -0.3 -0.7</direction>
+    </light>
+
+    <!-- Ground Plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="ground_link">
+        <collision name="ground_collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>10 10</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1.0</mu>
+                <mu2>1.0</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="ground_visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>10 10</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.85 0.85 0.85 1.0</ambient>
+            <diffuse>0.85 0.85 0.85 1.0</diffuse>
+            <specular>0.2 0.2 0.2 1.0</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Cylindrical Base: 4cm (0.04m) height, 20cm (0.20m) radius at origin -->
+    <!-- Positioned at z=0.02 so bottom rests on ground (z=0) and top surface is at z=0.04 -->
+    <model name="cylindrical_base">
+      <static>true</static>
+      <pose>0 0 0.02 0 0 0</pose>
+      <link name="base_link">
+        <collision name="base_collision">
+          <geometry>
+            <cylinder>
+              <radius>0.20</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1.0</mu>
+                <mu2>1.0</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="base_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.20</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.2 0.22 0.25 1.0</ambient>
+            <diffuse>0.3 0.33 0.37 1.0</diffuse>
+            <specular>0.7 0.7 0.75 1.0</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Measured Box: 10cm x 10cm x 10cm resting on top of cylindrical base -->
+    <include>
+      <name>measured_box</name>
+      <uri>model://measured_box</uri>
+      <pose>0 0 0.04 0 0 0</pose>
+    </include>
+
+    <!-- Intel RealSense Camera: Spawned 85cm behind (-0.85m) and 45cm above (0.45m) origin -->
+    <!-- Pitched down (~23 deg = 0.401 rad) to point directly at the object on top of the base -->
+    <model name="realsense_camera">
+      <static>true</static>
+      <pose>-0.85 0 0.45 0 0.401 0</pose>
+      <link name="camera_link">
+        <inertial>
+          <mass>0.072</mass>
+          <inertia>
+            <ixx>0.00004</ixx>
+            <ixy>0.0</ixy>
+            <ixz>0.0</ixz>
+            <iyy>0.00004</iyy>
+            <iyz>0.0</iyz>
+            <izz>0.00004</izz>
+          </inertia>
+        </inertial>
+
+        <!-- RealSense RGB-D Sensor: outputs RGB, Depth, CameraInfo, and PointCloud -->
+        <sensor name="realsense_d435" type="rgbd_camera">
+          <always_on>true</always_on>
+          <update_rate>30.0</update_rate>
+          <topic>camera</topic>
+          <visualize>true</visualize>
+          <camera>
+            <horizontal_fov>1.2043</horizontal_fov>
+            <image>
+              <width>1280</width>
+              <height>720</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.05</near>
+              <far>10.0</far>
+            </clip>
+            <depth_camera>
+              <clip>
+                <near>0.05</near>
+                <far>10.0</far>
+              </clip>
+            </depth_camera>
+            <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.002</stddev>
+            </noise>
+          </camera>
+        </sensor>
+      </link>
+    </model>
+
+  </world>
+</sdf>
